@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Mapeamento.API/Mapeamento.API.csproj" />
+  <Project Path="Mapeamento.Application/Mapeamento.Application.csproj" />
+  <Project Path="Mapeamento.Domain/Mapeamento.Domain.csproj" />
+  <Project Path="Mapeamento.Infrastructure/Mapeamento.Infrastructure.csproj" />
+</Solution>
