@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Menu, User } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import './Header.css';
 
 interface HeaderProps {
@@ -30,11 +30,6 @@ const Header: React.FC<HeaderProps> = ({
           </nav>
         )}
         
-        <div className="header-right">
-          <button className="menu-button">
-            <Menu size={20} />
-          </button>
-        </div>
       </div>
     </header>
   );

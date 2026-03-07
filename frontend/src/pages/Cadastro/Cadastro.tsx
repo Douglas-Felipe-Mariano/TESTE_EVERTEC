@@ -1,13 +1,18 @@
 import React, { useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Save, MapPin, AlertCircle } from "lucide-react";
-import api from "../../services/api";
+import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, Save, MapPin } from "lucide-react";
 import { Estado } from "../../interfaces/PontoTuristico";
+import { usePontosTuristicosActions } from "../../hooks/usePontosTuristicosActions";
 import './Cadastro.css';
 import axios from "axios";
 
 const Cadastro: React.FC = () => {
     const navigate = useNavigate();
+    const { id } = useParams<{ id: string }>();
+    const isEditing = !!id;
+    
+    const { criarPonto, editarPonto, buscarPontoPorId, buscarEstados, loading } = usePontosTuristicosActions();
+    
     const [estados, setEstados] = useState<Estado[]>([]);
     const [cidades, setCidades] = useState<string[]>([]);
     const [loadingCidades, setLoadingCidades] = useState(false);
@@ -21,10 +26,33 @@ const Cadastro: React.FC = () => {
     });
 
     useEffect(() => {
-        api.get<Estado[]>('/PontosTuristicos/estados')
-           .then(response => setEstados(response.data))
-           .catch(error => console.error("Erro ao carregar estados:", error));
-    },[]);
+        const carregarEstados = async () => {
+            const estadosData = await buscarEstados();
+            setEstados(estadosData);
+        };
+        carregarEstados();
+    }, [buscarEstados]);
+
+    useEffect(() => {
+        if (isEditing && id && estados.length > 0) {
+            const carregarPonto = async () => {
+                const ponto = await buscarPontoPorId(Number(id));
+                if (ponto) {
+                    setFormData({
+                        nome: ponto.nome,
+                        descricao: ponto.descricao,
+                        localizacao: ponto.localizacao,
+                        cidade: ponto.cidade,
+                        estadoId: ponto.estadoId
+                    });
+                } else {
+                    alert("Erro ao carregar dados do ponto turístico.");
+                    navigate("/");
+                }
+            };
+            carregarPonto();
+        }
+    }, [isEditing, id, estados.length, buscarPontoPorId, navigate]);
 
     useEffect(() => {
         if(formData.estadoId > 0) {
@@ -50,14 +78,23 @@ const Cadastro: React.FC = () => {
             return alert("A descrição não pode ter mais de 100 caracteres.");
         }
 
-        try
-        {
-            await api.post('/PontosTuristicos', formData);
-            alert("Ponto turístico cadastrado com sucesso!");
+        let sucesso = false;
+        if (isEditing && id) {
+            sucesso = await editarPonto(Number(id), formData);
+            if (sucesso) {
+                alert("Ponto turístico atualizado com sucesso!");
+            }
+        } else {
+            sucesso = await criarPonto(formData);
+            if (sucesso) {
+                alert("Ponto turístico cadastrado com sucesso!");
+            }
+        }
+
+        if (sucesso) {
             navigate("/");
-        } catch (error) {
-            console.error("Erro ao cadastrar ponto turístico:", error);
-            alert("Ocorreu um erro ao cadastrar o ponto turístico. Por favor, tente novamente.");
+        } else {
+            alert("Ocorreu um erro ao salvar o ponto turístico. Por favor, tente novamente.");
         }
     };  
 
@@ -71,10 +108,10 @@ const Cadastro: React.FC = () => {
                     </button>
                     <h1 className="page-title">
                         <MapPin size={32} />
-                        Cadastrar Ponto Turístico
+                        {isEditing ? "Editar Ponto Turístico" : "Cadastrar Ponto Turístico"}
                     </h1>
                     <p className="page-subtitle">
-                        Compartilhe um novo destino incrível com outros viajantes
+                        {isEditing ? "Atualize as informações do ponto turístico" : "Compartilhe um novo destino incrível com outros viajantes"}
                     </p>
                 </div>
             </div>
@@ -173,9 +210,9 @@ const Cadastro: React.FC = () => {
                         <button type="button" onClick={() => navigate(-1)} className="btn btn-secondary">
                             Cancelar
                         </button>
-                        <button type="submit" className="btn btn-success">
+                        <button type="submit" className="btn btn-success" disabled={loading}>
                             <Save size={20} />
-                            Salvar Ponto Turístico
+                            {loading ? "Salvando..." : (isEditing ? "Atualizar Ponto Turístico" : "Salvar Ponto Turístico")}
                         </button>
                     </div>
                 </form>

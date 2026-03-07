@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin } from 'lucide-react';
+import { Github, Linkedin, MapPin } from 'lucide-react';
 import './Footer.css';
 
 const Footer: React.FC = () => {
@@ -26,7 +26,24 @@ const Footer: React.FC = () => {
         
         <div className="footer-right">
           <h4>Contato</h4>
-          <p>suporte@pontosturisticos.com.br</p>
+          <p className="footer-contact">
+            <Github size={18} style={{marginRight: "6px"}} />
+            <a 
+            href="https://github.com/douglas-felipe-mariano" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >GitHub</a>
+          </p>
+          <p className="footer-contact">
+            <Linkedin size={18} style={{marginRight: "6px"}} />
+          <a 
+            href="https://linkedin.com/in/douglasfelipemariano" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            linkedin.com/in/seu-usuario
+          </a>
+          </p>
         </div>
       </div>
     </footer>

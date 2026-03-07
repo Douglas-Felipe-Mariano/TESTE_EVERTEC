@@ -48,7 +48,7 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
     {
         return await _context.PontosTuristicos
                              .Include(p => p.Estado)
-                             .FirstOrDefaultAsync(p => p.Id == id);
+                             .FirstOrDefaultAsync(p => p.Id == id && p.Status);
     }
 
     public async Task<IEnumerable<Estado>> ListarEstadosAsync()

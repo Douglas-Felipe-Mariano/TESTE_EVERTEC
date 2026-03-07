@@ -64,6 +64,22 @@
   font-size: 0.9rem;
 }
 
+.footer-contact{
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.footer-contact a{
+  margin: inherit;
+  text-decoration: none;
+  font: inherit;
+  color: #e2e8f0;
+}
+
+.footer-contact a:hover {
+  text-decoration: underline;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .footer-container {

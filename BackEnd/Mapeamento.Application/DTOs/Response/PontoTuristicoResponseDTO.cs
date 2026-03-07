@@ -7,6 +7,7 @@ public record PontoTuristicoResponseDTO(
    ,string   Descricao
    ,string   Localizacao
    ,string   Cidade
+   ,int      EstadoId
    ,string   EstadoNome
    ,DateTime DataCriacao 
 

@@ -29,17 +29,10 @@ public static class PontoTuristicoMapper
             entity.Descricao,
             entity.Localizacao,
             entity.Cidade,
+            entity.EstadoId,
             entity.Estado?.Nome ?? "N/A",
             entity.DataCriacao
         );
     }
 
-    public static EstadoResponseDTO ToDTO(this Estado entity)
-    {
-        return new EstadoResponseDTO(
-            entity.Id,
-            entity.Nome,
-            entity.Sigla
-        );
-    }
 }
