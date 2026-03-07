@@ -52,9 +52,21 @@ src/
 - Confirmações para exclusão
 - Carregamento dinâmico de cidades por estado
 
-## Como rodar o projeto
-- Para execução dos projetos, deixei instruções na pasta raiz de cada um, em ambas as pastas, fronted e BackEnd contem um arquivo README.md com as orientações de como executa-los e os requisitos necessários nos seguintes caminhos.
 
-Caminho para o README.md do FrontEnd: [README.md](/frontend//README.md)
 
-Caminho para o README.md do BackEnd: [README.md](/BackEnd/README.md)
+# Como rodar o projeto
+## Clonando o Repositório
+Antes de qualquer coisa é necesário clonar o projeto do gitHub para sua maquina local, é possivel fazer isso com o comando
+```bash
+git clone https://github.com/Douglas-Felipe-Mariano/TESTE_EVERTEC.git
+```
+
+Após terminar de clonar o projeto para seu ambiente local é necessario executar as aplicações individualmente, elas estão como frontend e BackEnd ambas dentro deste repositório.
+
+## Execução das aplicações
+
+Para execução dos projetos, deixei instruções em um arquivo chamado README.md na pasta pasta raiz de cada aplicação, segue os caminhos:
+
+- Caminho para o README.md do FrontEnd: [README.md](/frontend//README.md)
+
+- Caminho para o README.md do BackEnd: [README.md](/BackEnd/README.md)
