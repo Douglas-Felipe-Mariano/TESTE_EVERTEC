@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import api from "../services/api";
 import { Estado, PontoTuristico } from "../interfaces/PontoTuristico";
 
 export const usePontosTuristicosActions = () => {
     const [loading, setLoading] = useState(false);
 
-    const criarPonto = async (dados: any): Promise<boolean> => {
+    const criarPonto = useCallback(async (dados: any): Promise<boolean> => {
         setLoading(true);
         try {
             await api.post('/PontosTuristicos', dados);
@@ -15,9 +15,9 @@ export const usePontosTuristicosActions = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    const editarPonto = async (id: number, dados: any): Promise<boolean> => {
+    const editarPonto = useCallback(async (id: number, dados: any): Promise<boolean> => {
         setLoading(true);
         try {
             await api.put(`/PontosTuristicos/${id}`, dados);
@@ -27,9 +27,9 @@ export const usePontosTuristicosActions = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    const excluirPonto = async (id: number): Promise<boolean> => {
+    const excluirPonto = useCallback(async (id: number): Promise<boolean> => {
         setLoading(true);
         try {
             await api.delete(`/PontosTuristicos/${id}`);
@@ -39,9 +39,9 @@ export const usePontosTuristicosActions = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    const buscarPontoPorId = async (id: number): Promise<PontoTuristico | null> => {
+    const buscarPontoPorId = useCallback(async (id: number): Promise<PontoTuristico | null> => {
         setLoading(true);
         try {
             const response = await api.get<PontoTuristico>(`/PontosTuristicos/${id}`);
@@ -51,16 +51,16 @@ export const usePontosTuristicosActions = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    const buscarEstados = async (): Promise<Estado[]> => {
+    const buscarEstados = useCallback(async (): Promise<Estado[]> => {
         try {
             const response = await api.get<Estado[]>('/PontosTuristicos/estados');
             return response.data;
         } catch (error) {
             return [];
         }
-    };
+    }, []);
 
     return { 
         criarPonto, 
