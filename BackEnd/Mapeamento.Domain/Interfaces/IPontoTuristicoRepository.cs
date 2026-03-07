@@ -11,4 +11,6 @@ public interface IPontoTuristicoRepository
     Task CadastrarPontoTuristicoAsync(PontoTuristico pontoTuristico);
     
     Task<IEnumerable<Estado>> ListarEstadosAsync();
+
+    Task AtualizarAsync(PontoTuristico ponto);
 }

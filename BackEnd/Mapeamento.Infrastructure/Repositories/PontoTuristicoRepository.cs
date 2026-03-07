@@ -56,4 +56,10 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
         return await _context.Estados.OrderBy(e => e.Nome).ToListAsync();
     }
 
+    public async Task AtualizarAsync(PontoTuristico ponto)
+    {
+        _context.PontosTuristicos.Update(ponto);
+        await _context.SaveChangesAsync();
+    }
+
 }

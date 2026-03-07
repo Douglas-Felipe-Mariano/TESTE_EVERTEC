@@ -1,3 +1,6 @@
+using Mapeamento.Application.DTOs;
+using Mapeamento.Domain.Entities;
+
 namespace Mapeamento.Application.Interfaces;
 
 public interface IPontoTuristicoService
@@ -9,4 +12,8 @@ public interface IPontoTuristicoService
     Task CadastrarPontoTuristicoAsync(PontoTuristicoRequestDTO requestDTO);
 
     Task<IEnumerable<Estado>> ListarEstadosAsync();
+
+    Task AtualizarPontoTuristicoAsync(int id, PontoTuristicoRequestDTO request);
+
+    Task ExcluirPontoAsync(int id);
 }

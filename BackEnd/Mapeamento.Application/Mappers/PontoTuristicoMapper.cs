@@ -1,28 +1,27 @@
 
 using Mapeamento.Application.DTOs;
+using Mapeamento.Application.DTOs.Response;
 using Mapeamento.Domain.Entities;
 
 namespace Mapeamento.Application.Mappers;
 
 public static class PontoTuristicoMapper
 {
-    //Converte DTO para Entidade
     public static PontoTuristico ToEntity(this PontoTuristicoRequestDTO requestDTO)
     {
         return new PontoTuristico
         {
-            Nome = requestDTO.Nome,
-            Descricao = requestDTO.Descricao,
-            Localizacao = requestDTO.Localizacao,
-            Cidade = requestDTO.Cidade,
-            EstadoId = requestDTO.EstadoId,
+            Nome = requestDTO.Nome ?? string.Empty,
+            Descricao = requestDTO.Descricao ?? string.Empty,
+            Localizacao = requestDTO.Localizacao ?? string.Empty,
+            Cidade = requestDTO.Cidade ?? string.Empty,
+            EstadoId = requestDTO.EstadoId ?? 0,
             DataCriacao = DateTime.Now,
             Status = true
         };
     }
 
-    //Converte Entidade para DTO
-    public static PontoTuristicoResponseDTO toDTO(this PontoTuristico entity)
+    public static PontoTuristicoResponseDTO ToDTO(this PontoTuristico entity)
     {
         return new PontoTuristicoResponseDTO(
             entity.Id,
@@ -32,6 +31,15 @@ public static class PontoTuristicoMapper
             entity.Cidade,
             entity.Estado?.Nome ?? "N/A",
             entity.DataCriacao
+        );
+    }
+
+    public static EstadoResponseDTO ToDTO(this Estado entity)
+    {
+        return new EstadoResponseDTO(
+            entity.Id,
+            entity.Nome,
+            entity.Sigla
         );
     }
 }
