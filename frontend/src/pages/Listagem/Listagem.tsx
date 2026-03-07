@@ -11,6 +11,20 @@ const Listagem: React.FC = () => {
     const [busca, setBusca] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [itensPorPagina] = useState(6);
+    const [cartoesExpandidos, setCartoesExpandidos] = useState<Set<number>>(new Set());
+
+    const toggleExpandir = (id: number) => {
+        setCartoesExpandidos(prev => {
+            const novo = new Set(prev);
+            if (novo.has(id)) {
+                novo.delete(id);
+            } else {
+                novo.add(id);
+            }
+            return novo;
+        });
+    };
+
     const [modalExcluir, setModalExcluir] = useState<{isOpen: boolean, pontoId?: number, pontoNome?: string}>({
         isOpen: false
     });
@@ -24,7 +38,7 @@ const Listagem: React.FC = () => {
 
     const handleBuscaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBusca(e.target.value);
-        setPaginaAtual(1); // Resetar para primeira página quando buscar
+        setPaginaAtual(1); 
     };
 
     const handlePageChange = (novaPagina: number) => {
@@ -48,11 +62,11 @@ const Listagem: React.FC = () => {
         if (modalExcluir.pontoId) {
             const sucesso = await excluirPonto(modalExcluir.pontoId);
             if (sucesso) {
-                // Recarregar a lista
+                
                 caregarPontosTuristicos(paginaAtual, busca, itensPorPagina);
                 fecharModalExcluir();
                 
-                // Se não há mais itens na página atual, voltar para a anterior
+                
                 if (dados && dados.itens.length === 1 && paginaAtual > 1) {
                     setPaginaAtual(paginaAtual - 1);
                 }
@@ -99,17 +113,28 @@ const Listagem: React.FC = () => {
             )}
 
                 <div className="points-grid">
-                {dados?.itens.map(ponto => (
-                    <div key={ponto.id} className="point-card">
-                        <div className="card-badge">
+                {dados?.itens.map(ponto => {
+                    const expandido = cartoesExpandidos.has(ponto.id);
+                    return (
+                    <div key={ponto.id} className={`point-card${expandido ? ' point-card--expandido' : ''}`}>
+                        <button
+                            className="card-badge"
+                            onClick={() => toggleExpandir(ponto.id)}
+                            title={expandido ? "Recolher" : "Expandir"}
+                            aria-label={expandido ? "Recolher cartão" : "Expandir cartão"}
+                        >
                             <MapPin size={16} />
-                        </div>
+                        </button>
                         
                         <div className="card-content">
-                            <h3 className="card-title">{ponto.nome}</h3>
-                            <p className="card-description">{ponto.descricao}</p>
+                            <div className="card-title-row">
+                                <h3 className={`card-title${expandido ? ' card-title--expandido' : ''}`}>
+                                    {ponto.nome}
+                                </h3>
+                            </div>
+                            <p className={`card-description${expandido ? ' card-description--expandido' : ''}`}>{ponto.descricao}</p>
 
-                            <div className="card-location">
+                            <div className={`card-location${expandido ? ' card-location--expandido' : ''}`}>
                                 <MapPin size={16} className="location-icon"/>
                                 <span>{ponto.cidade}, {ponto.localizacao}</span>
                             </div>
@@ -137,7 +162,8 @@ const Listagem: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                ))}
+                    );
+                })}
             </div>            {dados?.itens.length === 0 && !loading && (
                 <div className="empty-state">
                     <MapPin size={64} className="empty-icon" />
