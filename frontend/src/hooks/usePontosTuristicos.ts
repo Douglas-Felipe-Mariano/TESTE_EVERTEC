@@ -6,15 +6,15 @@ export const usePontosTuristico = () => {
     const [dados , setDados] = useState<PontoTuristicoPaginado | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const caregarPontosTuristicos = useCallback(async (pagina: number, busca = '') => {
+    const caregarPontosTuristicos = useCallback(async (pagina: number, busca = '', tamanhoPagina = 6) => {
         setLoading(true);
         try {
             const response = await api.get<PontoTuristicoPaginado>(
-            `/PontosTuristicos?pagina=${pagina}&busca=${busca}`
-        );
-        setDados(response.data);
+                `/PontosTuristicos?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&busca=${busca}`
+            );
+            setDados(response.data);
         } catch (error) {
-            console.log("Erro ao carregar dados da API", error);
+            setDados(null);
         } finally {
             setLoading(false);
         }

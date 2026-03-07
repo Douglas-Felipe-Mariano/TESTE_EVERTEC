@@ -1,53 +1,57 @@
-# Sistema de Mapeamento de Pontos Turísticos
-
-Sistema completo para cadastro e gerenciamento de pontos turísticos brasileiros.
-
-## Arquitetura
-
-- **BackEnd**: API REST em .NET 10 com Clean Architecture
-- **FrontEnd**: Interface React com TypeScript (em desenvolvimento)
-
-##  Como Executar
+## Como Executar
 
 ### Pré-requisitos
 - .NET 10 SDK
-- SQL Server 
+- SQL Server
 
-### Backend
+### Passos para Execução
+
+## Configurações do Banco de dados
+A aplicação está configurada para utilizar o SQL Server (LocalDB) por padrão, visando a facilidade de execução.
+
+String de Conexão Padrão:
+``` bash
+Server=(localdb)\mssqllocaldb;Database=MapeamentoDB;Trusted_Connection=True;
+```
+
+  
+ Se o seu ambiente utilizar uma instância diferente (ex: .\SQLEXPRESS), você deve ajustar a ConnectionString no seguinte arquivo:
+
+Caminho: [Mapeamento.API/appsettings.json](Mapeamento.API/appsettings.json)
+``` bash
+"ConnectionStrings": {
+  "DefaultConnection": "Server=SUA_INSTANCIA;Database=MapeamentoDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+Caso contrario continue com a execução do projeto
+
+# Execução do Projeto
+
+Navegue até a pasta do projeto:
 ```bash
-cd BackEnd/Mapeamento.API
-dotnet run
+cd BackEnd
+```
+
+Restaure as dependências:
+```bash
+dotnet restore
+```
+
+Execute as migrations para criar e popular o banco de dados
+```bash
+dotnet ef database update --project Mapeamento.Infrastructure --startup-project Mapeamento.API
+```
+
+Inicie o projeto
+```bash
+dotnet run --project Mapeamento.API
 ```
 
 A API estará disponível em: http://localhost:5287
 
-> **Importante**: O banco de dados é criado automaticamente na primeira execução, incluindo todas as tabelas e dados iniciais de 15 pontos turísticos. Não é necessário executar comandos adicionais!
-
 ### Swagger
-Acesse: http://localhost:5287 para ver a documentação da API
+A documentação da API via Swagger estará disponivel em: http://localhost:5287/swagger/index.html
 
-## Tecnologias
-
-### Backend
-- .NET 10
-- Entity Framework Core
-- SQL Server
-- Swagger/OpenAPI
-- Clean Architecture
-
-### Frontend
-- React 18
-- TypeScript
-- Axios
-- RouterDOM
-
-## Funcionalidades
-
-- ✅ CRUD completo de pontos turísticos
-- ✅ Listagem com paginação
-- ✅ Busca por nome, localização ou descrição
-- ✅ Relacionamento com estados brasileiros
-- ✅ Soft delete (exclusão lógica)
-- ✅ Dados iniciais de 15 pontos turísticos
-
+> **Importante**: O banco de dados será criado automaticamente na primeira execução, incluindo todas as tabelas e dados iniciais de 15 pontos turísticos, e os 27 estados, sem necessidade de configuração prévia.
 

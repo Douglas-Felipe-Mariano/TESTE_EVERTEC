@@ -16,8 +16,11 @@ public class PontosTuristicosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Listar([FromQuery] int pagina=1, [FromQuery] int tamanhoPagina=10, [FromQuery] string? busca = null)
+    public async Task<IActionResult> Listar([FromQuery] int pagina=1, [FromQuery] int tamanhoPagina=6, [FromQuery] string? busca = null)
     {
+        if (tamanhoPagina > 50) tamanhoPagina = 50;
+        if (tamanhoPagina < 1) tamanhoPagina = 6;
+        
         var (itens, contaRegistros) = await _pontoTuristicoService.ListarPontosTuristicosAsync(pagina, tamanhoPagina, busca);
         return Ok(new {itens, contaRegistros, pagina, tamanhoPagina});
     }
