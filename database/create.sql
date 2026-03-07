@@ -1,0 +1,21 @@
+CREATE DATABASE MapeamentoDB;
+
+CREATE TABLE Estados (
+    Id INT PRIMARY KEY IDENTITY(1,1)
+   ,Nome VARCHAR(100) NOT NULL
+   ,Sigla CHAR(2) NOT NULL
+);
+
+
+CREATE TABLE PontosTuristicos (
+    Id INT PRIMARY KEY IDENTITY(1,1)
+   ,Nome VARCHAR(100) NOT NULL
+   ,Descricao VARCHAR(100) NOT NULL
+   ,Localizacao VARCHAR(200) NOT NULL
+   ,Cidade VARCHAR(100) NOT NULL
+   ,EstadoId INT NOT NULL
+   ,DataCriacao DATETIME DEFAULT GETDATE()
+   ,Deletado BIT DEFAULT 0
+   
+    CONSTRAINT FK_PontosTuristicos_Estados FOREIGN KEY (EstadoId) REFERENCES Estados(Id)
+);

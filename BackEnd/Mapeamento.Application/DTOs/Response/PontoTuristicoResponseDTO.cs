@@ -2,7 +2,7 @@ namespace Mapeamento.Application.DTOs;
 
 public record PontoTuristicoResponseDTO(
 
-    int Id
+    int      Id
    ,string   Nome 
    ,string   Descricao
    ,string   Localizacao

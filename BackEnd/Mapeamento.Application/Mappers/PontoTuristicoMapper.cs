@@ -11,27 +11,27 @@ public static class PontoTuristicoMapper
     {
         return new PontoTuristico
         {
-            Nome = requestDTO.Nome ?? string.Empty,
-            Descricao = requestDTO.Descricao ?? string.Empty,
+            Nome        = requestDTO.Nome ?? string.Empty,
+            Descricao   = requestDTO.Descricao ?? string.Empty,
             Localizacao = requestDTO.Localizacao ?? string.Empty,
-            Cidade = requestDTO.Cidade ?? string.Empty,
-            EstadoId = requestDTO.EstadoId ?? 0,
+            Cidade      = requestDTO.Cidade ?? string.Empty,
+            EstadoId    = requestDTO.EstadoId ?? 0,
             DataCriacao = DateTime.Now,
-            Status = true
+            Status      = true
         };
     }
 
     public static PontoTuristicoResponseDTO ToDTO(this PontoTuristico entity)
     {
         return new PontoTuristicoResponseDTO(
-            entity.Id,
-            entity.Nome,
-            entity.Descricao,
-            entity.Localizacao,
-            entity.Cidade,
-            entity.EstadoId,
-            entity.Estado?.Nome ?? "N/A",
-            entity.DataCriacao
+            entity.Id
+           ,entity.Nome
+           ,entity.Descricao
+           ,entity.Localizacao
+           ,entity.Cidade
+           ,entity.EstadoId
+           ,entity.Estado?.Nome ?? "N/A"
+           ,entity.DataCriacao
         );
     }
 
